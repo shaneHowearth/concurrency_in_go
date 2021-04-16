@@ -18,7 +18,11 @@ func RunJob(id string) error {
 	const jobBinPath = "/bad/job/binary"
 	isExecutable, err := lowlevel.IsGloballyExec(jobBinPath)
 	if err != nil {
-		return err
+		return Err{errortype.WrapError(
+			err,
+			"cannot run job %q: requisite binaries not available",
+			id,
+		)}
 	} else if !isExecutable {
 		return errortype.WrapError(nil, "job binary is not executable")
 	}
