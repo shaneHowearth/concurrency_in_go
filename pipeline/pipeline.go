@@ -97,6 +97,33 @@ func ToString(
 	return stringStream
 }
 
+// Repeat -
+func Repeat(
+	done <-chan interface{},
+	values ...interface{},
+
+) <-chan interface{} {
+	valueStream := make(chan interface{})
+	go func() {
+		defer close(valueStream)
+		for {
+			for _, v := range values {
+				select {
+				case <-done:
+					return
+				case valueStream <- v:
+
+				}
+
+			}
+
+		}
+
+	}()
+	return valueStream
+
+}
+
 // RepeatFn -
 func RepeatFn(
 	done <-chan interface{},
