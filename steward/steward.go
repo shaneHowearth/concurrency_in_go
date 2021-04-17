@@ -8,7 +8,8 @@ import (
 	ordone "github.com/shanehowearth/concurrency_in_go/ordonechannel"
 )
 
-type startGoroutineFn func(
+// StartGoroutineFn -
+type StartGoroutineFn func(
 	done <-chan interface{},
 	pulseInterval time.Duration,
 ) (heartbeat <-chan interface{})
@@ -18,8 +19,8 @@ type startGoroutineFn func(
 // nolint:golint
 func NewSteward(
 	timeout time.Duration,
-	startGoroutine startGoroutineFn,
-) startGoroutineFn {
+	startGoroutine StartGoroutineFn,
+) StartGoroutineFn {
 	return func(
 		done <-chan interface{},
 		pulseInterval time.Duration,
